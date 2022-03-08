@@ -4,7 +4,7 @@
 [![Lint](https://github.com/Yoast/wordpress-seo/actions/workflows/lint.yml/badge.svg)](https://github.com/Yoast/wordpress-seo/actions/workflows/lint.yml)
 [![JS](https://github.com/Yoast/wordpress-seo/actions/workflows/js.yml/badge.svg)](https://github.com/Yoast/wordpress-seo/actions/workflows/js.yml)
 [![Unit Tests](https://github.com/Yoast/wordpress-seo/actions/workflows/unittest.yml/badge.svg)](https://github.com/Yoast/wordpress-seo/actions/workflows/unittest.yml)
-[![Build Status](https://api.travis-ci.com/Yoast/wordpress-seo.svg?branch=master)](https://travis-ci.com/Yoast/wordpress-seo)
+[![Integration Tests](https://github.com/Yoast/wordpress-seo/actions/workflows/integrationtest.yml/badge.svg)](https://github.com/Yoast/wordpress-seo/actions/workflows/integrationtest.yml)
 [![Stable Version](https://poser.pugx.org/yoast/wordpress-seo/v/stable.svg)](https://packagist.org/packages/yoast/wordpress-seo)
 [![License](https://poser.pugx.org/yoast/wordpress-seo/license.svg)](https://packagist.org/packages/yoast/wordpress-seo)
 
