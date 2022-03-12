@@ -2,9 +2,9 @@ name: CS
 
 on:
   # Run on all pushes (except to master) and on all pull requests.
-  push:
-    branches-ignore:
-      - 'master'
+#  push:
+#    branches-ignore:
+#      - 'master'
   pull_request:
   # Allow manually triggering the workflow.
   workflow_dispatch:
