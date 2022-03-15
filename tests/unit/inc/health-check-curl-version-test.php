@@ -79,8 +79,8 @@ class Health_Check_Curl_Version_Test extends TestCase {
 
 		$product_helper_mock = Mockery::mock( Product_Helper::class );
 		$product_helper_mock->expects( 'is_premium' )->once()->andReturn( false );
-		$helpers_mock = (object) [ 'product' => $product_helper_mock ];
-		Monkey\Functions\expect( 'YoastSEO' )->once()->andReturn( (object) [ 'helpers' => $helpers_mock ] );
+		$helpers_mock = (object) [ 'product' => $product_helper_mock, 'options' => self::get_options_helper_mock( 1, 0 ) ];
+		Monkey\Functions\expect( 'YoastSEO' )->twice()->andReturn( (object) [ 'helpers' => $helpers_mock ] );
 
 		$this->instance->run();
 
@@ -121,8 +121,8 @@ class Health_Check_Curl_Version_Test extends TestCase {
 
 		$product_helper_mock = Mockery::mock( Product_Helper::class );
 		$product_helper_mock->expects( 'is_premium' )->once()->andReturn( false );
-		$helpers_mock = (object) [ 'product' => $product_helper_mock ];
-		Monkey\Functions\expect( 'YoastSEO' )->once()->andReturn( (object) [ 'helpers' => $helpers_mock ] );
+		$helpers_mock = (object) [ 'product' => $product_helper_mock, 'options' => self::get_options_helper_mock( 1, 0 ) ];
+		Monkey\Functions\expect( 'YoastSEO' )->twice()->andReturn( (object) [ 'helpers' => $helpers_mock ] );
 
 		$this->instance->run();
 

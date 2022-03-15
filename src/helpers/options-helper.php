@@ -20,6 +20,11 @@ class Options_Helper {
 	 */
 	protected $site_options_service;
 
+	/**
+	 * Constructs the Site_Options_Service instance.
+	 *
+	 * @param Site_Options_Service $site_options_service
+	 */
 	public function __construct( Site_Options_Service $site_options_service ) {
 		$this->site_options_service = $site_options_service;
 	}
@@ -27,16 +32,16 @@ class Options_Helper {
 	/**
 	 * Retrieves a single field from any option for the SEO plugin. Keys are always unique.
 	 *
-	 * @param string $key           The key it should return.
-	 * @param mixed  $default_value The default value that should be returned if the key isn't set.
+	 * @param string $key      The key it should return.
+	 * @param mixed  $fallback The fallback value that should be returned if the key isn't set.
 	 *
 	 * @return mixed|null Returns value if found, $default_value if not.
 	 */
-	public function get( $key, $default_value = null ) {
+	public function get( $key, $fallback = null ) {
 		try {
 			return $this->site_options_service->__get( $key );
 		} catch ( Unknown_Exception $exception ) {
-			return $default_value;
+			return $fallback;
 		}
 	}
 

@@ -6,6 +6,7 @@ use Brain\Monkey;
 use Mockery;
 use WPSEO_Health_Check_Link_Table_Not_Accessible;
 use Yoast\WP\SEO\Config\Migration_Status;
+use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -70,9 +71,12 @@ class Health_Check_Link_Table_Not_Accessible_Test extends TestCase {
 		$classes->expects( 'get' )->once()->with( Migration_Status::class )->andReturn( $migration_status );
 		$product_helper_mock = Mockery::mock( Product_Helper::class );
 		$product_helper_mock->expects( 'is_premium' )->once()->andReturn( false );
-		$helpers_mock = (object) [ 'product' => $product_helper_mock ];
+		$helpers_mock = (object) [
+			'product' => $product_helper_mock,
+			'options' => self::get_options_helper_mock( 1, 0 ),
+		];
 
-		Monkey\Functions\expect( 'YoastSEO' )->twice()->andReturn(
+		Monkey\Functions\expect( 'YoastSEO' )->times( 3 )->andReturn(
 			(object) [
 				'classes' => $classes,
 				'helpers' => $helpers_mock,
@@ -112,9 +116,12 @@ class Health_Check_Link_Table_Not_Accessible_Test extends TestCase {
 
 		$product_helper_mock = Mockery::mock( Product_Helper::class );
 		$product_helper_mock->expects( 'is_premium' )->once()->andReturn( false );
-		$helpers_mock = (object) [ 'product' => $product_helper_mock ];
+		$helpers_mock = (object) [
+			'product' => $product_helper_mock,
+			'options' => self::get_options_helper_mock( 1, 0 ),
+		];
 
-		Monkey\Functions\expect( 'YoastSEO' )->twice()->andReturn(
+		Monkey\Functions\expect( 'YoastSEO' )->times( 3 )->andReturn(
 			(object) [
 				'classes' => $classes,
 				'helpers' => $helpers_mock,

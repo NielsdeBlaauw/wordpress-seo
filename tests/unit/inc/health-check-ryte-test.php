@@ -7,6 +7,7 @@ use Mockery;
 use WPSEO_Health_Check_Ryte;
 use WPSEO_Ryte_Option;
 use WPSEO_Utils;
+use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -178,8 +179,11 @@ class Health_Check_Ryte_Test extends TestCase {
 
 		$product_helper_mock = Mockery::mock( Product_Helper::class );
 		$product_helper_mock->expects( 'is_premium' )->twice()->andReturn( false );
-		$helpers_mock = (object) [ 'product' => $product_helper_mock ];
-		Monkey\Functions\expect( 'YoastSEO' )->twice()->andReturn( (object) [ 'helpers' => $helpers_mock ] );
+		$helpers_mock = (object) [
+			'product' => $product_helper_mock,
+			'options' => self::get_options_helper_mock( 2, 0 ),
+		];
+		Monkey\Functions\expect( 'YoastSEO' )->times( 4 )->andReturn( (object) [ 'helpers' => $helpers_mock ] );
 
 		$this->health_check->run();
 
@@ -191,7 +195,8 @@ class Health_Check_Ryte_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the run method when Ryte integration is enabled, the blog is public and and the Ryte Option cannot be fetched.
+	 * Tests the run method when Ryte integration is enabled, the blog is public and and the Ryte Option cannot be
+	 * fetched.
 	 *
 	 * @covers ::run
 	 * @covers ::unknown_indexability_response
@@ -226,8 +231,11 @@ class Health_Check_Ryte_Test extends TestCase {
 
 		$product_helper_mock = Mockery::mock( Product_Helper::class );
 		$product_helper_mock->expects( 'is_premium' )->twice()->andReturn( false );
-		$helpers_mock = (object) [ 'product' => $product_helper_mock ];
-		Monkey\Functions\expect( 'YoastSEO' )->twice()->andReturn( (object) [ 'helpers' => $helpers_mock ] );
+		$helpers_mock = (object) [
+			'product' => $product_helper_mock,
+			'options' => self::get_options_helper_mock( 2, 0 ),
+		];
+		Monkey\Functions\expect( 'YoastSEO' )->times( 4 )->andReturn( (object) [ 'helpers' => $helpers_mock ] );
 
 		$this->health_check->run();
 		$this->assertEquals(
@@ -277,7 +285,8 @@ class Health_Check_Ryte_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the run method when Ryte integration is enabled, the blog is public and and the Ryte response failed with errors.
+	 * Tests the run method when Ryte integration is enabled, the blog is public and and the Ryte response failed with
+	 * errors.
 	 *
 	 * @covers ::run
 	 * @covers ::response_error
@@ -305,8 +314,11 @@ class Health_Check_Ryte_Test extends TestCase {
 
 		$product_helper_mock = Mockery::mock( Product_Helper::class );
 		$product_helper_mock->expects( 'is_premium' )->twice()->andReturn( false );
-		$helpers_mock = (object) [ 'product' => $product_helper_mock ];
-		Monkey\Functions\expect( 'YoastSEO' )->twice()->andReturn( (object) [ 'helpers' => $helpers_mock ] );
+		$helpers_mock = (object) [
+			'product' => $product_helper_mock,
+			'options' => self::get_options_helper_mock( 2, 0 ),
+		];
+		Monkey\Functions\expect( 'YoastSEO' )->times( 4 )->andReturn( (object) [ 'helpers' => $helpers_mock ] );
 
 		$this->health_check->run();
 		$this->assertEquals(
@@ -344,7 +356,8 @@ class Health_Check_Ryte_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the run method when Ryte integration is enabled, the site is indexable but the WordPress environment type is not "production".
+	 * Tests the run method when Ryte integration is enabled, the site is indexable but the WordPress environment type
+	 * is not "production".
 	 *
 	 * @covers ::run
 	 * @covers ::response_error

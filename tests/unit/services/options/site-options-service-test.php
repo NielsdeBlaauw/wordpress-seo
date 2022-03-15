@@ -69,7 +69,8 @@ class Site_Options_Service_Test extends TestCase {
 
 		$result = $this->instance->get_options();
 
-		$this->assertEquals( [ 'foo' => 'bar' ], $result );
+		// Check if one of is the expected. The result is also filled with the default options.
+		$this->assertContains( [ 'foo' => 'bar' ], $result );
 	}
 
 	/**
@@ -247,7 +248,8 @@ class Site_Options_Service_Test extends TestCase {
 
 		$result = $this->instance->get_all();
 
-		$this->assertEquals( [ 'foo' => 'bar' ], $result );
+		// Check if one of is the expected. The result is also filled with the default options.
+		$this->assertContains( [ 'foo' => 'bar' ], $result );
 	}
 
 	/**
@@ -261,6 +263,7 @@ class Site_Options_Service_Test extends TestCase {
 		Monkey\Functions\expect( 'get_option' )
 			->atLeast()
 			->once()
+			->with( 'wpseo_options' )
 			->andReturn( $values );
 	}
 }

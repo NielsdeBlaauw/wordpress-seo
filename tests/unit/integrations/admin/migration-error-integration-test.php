@@ -7,6 +7,7 @@ use Mockery;
 use WPSEO_Shortlinker;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Config\Migration_Status;
+use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Migration_Error_Integration;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -116,10 +117,13 @@ class Migration_Error_Integration_Test extends TestCase {
 
 		$product_helper_mock = Mockery::mock( Product_Helper::class );
 		$product_helper_mock->expects( 'is_premium' )->twice()->andReturn( false );
-		$helpers_mock = (object) [ 'product' => $product_helper_mock ];
-		Monkey\Functions\expect( 'YoastSEO' )->twice()->andReturn( (object) [ 'helpers' => $helpers_mock ] );
+		$helpers_mock = (object) [
+			'product' => $product_helper_mock,
+			'options' => self::get_options_helper_mock( 2, 0 ),
+		];
+		Monkey\Functions\expect( 'YoastSEO' )->times( 4 )->andReturn( (object) [ 'helpers' => $helpers_mock ] );
 
-		$expected  = '<div class="notice notice-error">';
+		$expected = '<div class="notice notice-error">';
 		$expected .= '<p>Yoast SEO had problems creating the database tables needed to speed up your site.</p>';
 		$expected .= '<p>Please read <a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/3-6' ) . '">this help article</a> to find out how to resolve this problem.</p>';
 		$expected .= '<p>Your site will continue to work normally, but won\'t take full advantage of Yoast SEO.</p>';
