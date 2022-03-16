@@ -135,7 +135,7 @@ jobs:
         if: ${{ github.event_name != 'schedule' }}
         run: |
           git fetch --no-tags --depth=1 origin ${{ steps.base_branch.outputs.NAME }}
-          git checkout -b ${{ steps.base_branch.outputs.NAME }}
+          git checkout ${{ steps.base_branch.outputs.NAME }} 2>/dev/null || git checkout -b ${{ steps.base_branch.outputs.NAME }}
           git checkout ${{ steps.base_branch.outputs.CURRENT }}
 
       # Check out the premium config repo ahead of running the tests to prevent issues with permissions.
