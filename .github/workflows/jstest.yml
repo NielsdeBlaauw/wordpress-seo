@@ -108,7 +108,7 @@ jobs:
           - package:              'yoastseo'
             needs_premium_config: true
 
-    name: "TestJS - ${{ matrix.package }}${{ github.event_name == 'schedule' && ' (full)' || ' (onlyChanged)' }}"
+    name: "TestJS - ${{ matrix.package }}${{ ( github.event_name == 'schedule' || github.ref == 'refs/heads/trunk' ) && ' (full)' || ' (onlyChanged)' }}"
 
     steps:
       - name: Checkout code
@@ -117,6 +117,7 @@ jobs:
       # The base branch is used to allow the "regular" (PR/push) checks to only run the
       # tests relevant for changes files.
       - name: Determine the base branch
+        if: ${{ github.event_name != 'schedule' && github.ref != 'refs/heads/trunk' }}
         id: base_branch
         env:
           BASE_REF: ${{ github.base_ref }}
@@ -132,7 +133,7 @@ jobs:
      # Note: we need to actually check the branch out and then go back to the original branch
      # as `changedSince` does not work if there is no local branch for the base ref.
       - name: "Fetch base branch (for onlyChanged test runs)"
-        if: ${{ github.event_name != 'schedule' }}
+        if: ${{ github.event_name != 'schedule' && github.ref != 'refs/heads/trunk' }}
         run: |
           git fetch --no-tags --depth=1 origin ${{ steps.base_branch.outputs.NAME }}
           git checkout ${{ steps.base_branch.outputs.NAME }} 2>/dev/null || git checkout -b ${{ steps.base_branch.outputs.NAME }}
@@ -181,11 +182,11 @@ jobs:
       # The cron job will run the full test suite, in all other cases, only the relevant tests
       # will be run based on the changed files.
       - name: "Run Javascript tests - onlyChanged files"
-        if: ${{ github.event_name != 'schedule' }}
+        if: ${{ github.event_name != 'schedule' && github.ref != 'refs/heads/trunk' }}
         run: yarn test --ci --changedSince="${{ steps.base_branch.outputs.NAME }}"
         working-directory: packages/${{ matrix.package }}
 
       - name: Run Javascript tests - full test run
-        if: ${{ github.event_name == 'schedule' }}
+        if: ${{ github.event_name == 'schedule' || github.ref == 'refs/heads/trunk'  }}
         run: yarn test --ci
         working-directory: packages/${{ matrix.package }}
